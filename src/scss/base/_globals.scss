@@ -1,0 +1,27 @@
+@use 'variables' as v;
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+
+*{
+    margin: 0%;
+    padding: 0%;
+}
+
+body{
+    height: 100vh;
+    font-family: 'Tilt Neon', cursive;
+}
+
+#root{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content_all{
+    border: 2px solid v.$gris;
+    padding: 0 5px;
+    border-radius: 5px;
+    width: 600px;
+    height: auto;
+}

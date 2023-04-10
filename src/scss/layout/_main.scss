@@ -1,0 +1,25 @@
+@use "../base/variables" as v;
+.content_all-task {
+  margin-top: 3rem;
+  .content_task {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: center;
+    align-items: center;
+    .info {
+      p {
+        margin: 1rem 0;
+      }
+    }
+    .options_buttons {
+      svg {
+        transition: 0.25s ease-in-out;
+        font-size: 30px;
+        &:hover {
+          transform: scale(1.1);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
