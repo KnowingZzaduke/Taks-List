@@ -6,6 +6,10 @@ export function TaskContextProvider(props) {
   const [task, setTask] = useState([]);
   const [count, setCount] = useState(0);
   const [complete, setCompleted] = useState(0);
+  const [modal, setModal] = useState(false);
+  const [id, setId] = useState();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   function createTask(titleTask, descriptionTask) {
     const newTask = {
       id: task.length,
@@ -18,16 +22,40 @@ export function TaskContextProvider(props) {
   }
 
   useEffect(() => {
-    localStorage.setItem("tarea", JSON.stringify(task));
-  }, [task]);
-
-  useEffect(() => {
     const getTask = localStorage.getItem("tarea");
     const parseTask = JSON.parse(getTask);
     if (parseTask) {
       setTask(parseTask);
     }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("tarea", JSON.stringify(task));
+  }, [task]);
+
+  function openModal() {
+    setModal(!modal);
+  }
+
+  function bringData(Idtask) {
+    task.find((tsk) => {
+      if (tsk.id === Idtask) {
+        setModal(!modal);
+        setTitle(tsk.title);
+        setDescription(tsk.description);
+        setId(tsk.id);
+      }
+    });
+  }
+
+  function updateData(titleTask, descriptionTask) {
+    setTask(task.map((tsk) => {
+      if(tsk.id === id){
+        return {...task, title: titleTask, description: descriptionTask}
+      }
+      return task
+    }))
+  }
 
   function deleteTask(Idtask) {
     Swal.fire({
@@ -87,9 +115,15 @@ export function TaskContextProvider(props) {
         task,
         count,
         complete,
+        modal,
+        title,
+        description,
         createTask,
         deleteTask,
         confirmTask,
+        openModal,
+        bringData,
+        updateData,
       }}
     >
       {props.children}
