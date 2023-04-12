@@ -7,7 +7,7 @@ export function TaskCard({ task }) {
   const { bringData} = useContext(TaskContext);
   return (
     <div className="content_task">
-      <div className="info">
+      <div className="info" key={task.id}>
         <h2>{task.title}</h2>
         <p>{task.description}</p>
       </div>

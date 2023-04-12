@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import { useState, useContext } from "react";
 import { TaskContext } from "../context/TaskContext";
 export function Form() {
-  const { createTask, count, complete } = useContext(TaskContext);
+  const { createTask, count, completed } = useContext(TaskContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -30,7 +30,7 @@ export function Form() {
         </div>
         <div className="n_pending">
           <h3>Completadas</h3>
-          <span>{complete}</span>
+          <span>{completed}</span>
         </div>
       </div>
       <form>
@@ -49,6 +49,7 @@ export function Form() {
             placeholder="Descipción de la de tarea"
             onChange={(e) => setDescription(e.target.value)}
             value={description}
+            style={{textAlign: "center"}}
           />
         </div>
         <div className="add_button">

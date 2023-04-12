@@ -1,18 +1,20 @@
 import { createContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { v4 as uuidv4 } from 'uuid';
+
 export const TaskContext = createContext();
 
 export function TaskContextProvider(props) {
   const [task, setTask] = useState([]);
   const [count, setCount] = useState(0);
-  const [complete, setCompleted] = useState(0);
+  const [completed, setCompleted] = useState(0);
   const [modal, setModal] = useState(false);
-  const [id, setId] = useState();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [id, setId] = useState();
   function createTask(titleTask, descriptionTask) {
     const newTask = {
-      id: task.length,
+      id: uuidv4(),
       title: titleTask,
       description: descriptionTask,
       completed: "false",
@@ -30,8 +32,30 @@ export function TaskContextProvider(props) {
   }, []);
 
   useEffect(() => {
+    const getCount = Number(localStorage.getItem("contador"));
+    if(getCount){
+      setCount(getCount)
+    }
+  }, []);
+
+  useEffect(() => {
+    const getCompleted = Number(localStorage.getItem("completado"));
+    if(getCompleted){
+      setCompleted(getCompleted);
+    }
+  }, []);
+
+  useEffect(() => { 
     localStorage.setItem("tarea", JSON.stringify(task));
   }, [task]);
+
+  useEffect(() => {
+    localStorage.setItem("contador", count);
+  }, [count]);
+
+  useEffect(() => {
+    localStorage.setItem("completado", completed);
+  }, [completed])
 
   function openModal() {
     setModal(!modal);
@@ -43,7 +67,7 @@ export function TaskContextProvider(props) {
         setModal(!modal);
         setTitle(tsk.title);
         setDescription(tsk.description);
-        setId(tsk.id);
+        setId(Idtask);
       }
     });
   }
@@ -51,9 +75,9 @@ export function TaskContextProvider(props) {
   function updateData(titleTask, descriptionTask) {
     setTask(task.map((tsk) => {
       if(tsk.id === id){
-        return {...task, title: titleTask, description: descriptionTask}
+        return {...tsk, title: titleTask, description: descriptionTask}
       }
-      return task
+      return tsk
     }))
   }
 
@@ -70,7 +94,7 @@ export function TaskContextProvider(props) {
     }).then((result) => {
       if (result.isConfirmed) {
         setTask(task.filter((tsk) => tsk.id !== Idtask));
-        setCount(count - 1);
+        setCount(count > 0 ? count -1 : 0);
         Swal.fire({
           title: "Exito",
           text: "La tarea se ha eliminado correctamente",
@@ -94,10 +118,10 @@ export function TaskContextProvider(props) {
         confirmButtonText: "Si terminé",
       }).then((result) => {
         if (result.isConfirmed) {
-          setCompleted(complete + 1);
-          setCount(count - 1);
+          setCompleted(completed + 1);
+          setCount(count > 0 ? count -1 : 0);
           setTask(task.filter((tsk) => tsk.id !== Idtask));
-          if (complete === true) {
+          if (completed === true) {
             Swal.fire({
               title: "Alerta",
               text: "Ya has terminado esta tarea, puedes empezar otra tarea :)",
@@ -114,7 +138,7 @@ export function TaskContextProvider(props) {
       value={{
         task,
         count,
-        complete,
+        completed,
         modal,
         title,
         description,

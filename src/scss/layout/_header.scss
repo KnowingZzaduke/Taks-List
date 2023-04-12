@@ -22,17 +22,13 @@
       label {
         margin: 1rem;
       }
-      input {
+      input, textarea {
         text-align: center;
         width: 80%;
         margin: 0% auto;
         padding: 10px 0;
         border-radius: 5px;
         border: 2px solid v.$gris;
-      }
-      textarea {
-        width: 80%;
-        margin: 0% auto;
       }
     }
   }

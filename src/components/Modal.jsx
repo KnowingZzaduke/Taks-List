@@ -14,6 +14,11 @@ export function Modal() {
     }else{
       if(titleUp !== title || descriptionUp !== description){
         updateData(titleUp, descriptionUp);
+        Swal.fire({
+          title: "Exito",
+          text: "Se ha modificado correctamente la tarea",
+          icon: "success"
+        })
       }
     }
   }
